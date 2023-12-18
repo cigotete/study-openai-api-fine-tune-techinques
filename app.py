@@ -8,7 +8,7 @@ completion = api.chat.completions.create(
     messages = [
       {
         "role": "system",
-        "content": "You are a helpful assistant. Print in Json format."
+        "content": "You are a helpful assistant."
       },
       {
         "role": "user",
@@ -16,13 +16,10 @@ completion = api.chat.completions.create(
       }
     ],
     max_tokens=15,
-    temperature=0,
-    logprobs=True,
-    top_logprobs=2,
+    temperature=0.7,
+    n=2
 )
 
-print(completion.choices[0].message.content)
-if completion.choices[0].logprobs is not None:
-    all_logprobs = completion.choices[0].logprobs.content
-    for logprob in all_logprobs:
-        print(logprob)
+response = completion.choices
+for i in response:
+    print(i.message.content)
