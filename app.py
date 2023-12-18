@@ -3,21 +3,26 @@ from openai import OpenAI
 
 api = OpenAI()
 
-next = api.chat.completions.create(
-    model="gpt-3.5-turbo-1106",
+completion = api.chat.completions.create(
+    model="gpt-3.5-turbo",
     messages = [
       {
         "role": "system",
-        "content": "You are a helpful assistant. Return in json format."
+        "content": "You are a helpful assistant. Print in Json format."
       },
       {
         "role": "user",
-        "content": "Give me a list of presidents of the United States."
+        "content": "Once upon a time"
       }
     ],
-    max_tokens=50,
+    max_tokens=15,
     temperature=0,
-    response_format={ "type": "json_object" },
+    logprobs=True,
+    top_logprobs=2,
 )
 
-print(next.choices[0].message.content)
+print(completion.choices[0].message.content)
+if completion.choices[0].logprobs is not None:
+    all_logprobs = completion.choices[0].logprobs.content
+    for logprob in all_logprobs:
+        print(logprob)
